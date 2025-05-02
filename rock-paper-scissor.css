@@ -1,0 +1,25 @@
+.images{
+  border-radius:100%;
+}
+button{
+  background-color: transparent;
+  border-width: 0;
+  
+}
+.js-moves{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  
+}
+.result-img{
+  border-radius: 100%;
+  margin-left: 15px;
+}
+.moves-result{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width:50%;
+}
