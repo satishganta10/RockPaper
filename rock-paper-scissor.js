@@ -1,161 +1,95 @@
+var userScore = 0;
+var computerScore = 0;
+const userScore_span = document.getElementById("user-score");
+const computerScore_span = document.getElementById("computer-score");
+const scoreBoard_div = document.querySelector(".score-board");
+const result_p = document.querySelector(".result > p");
+const rock_div = document.getElementById("r");
+const paper_div = document.getElementById("p");
+const scissors_div = document.getElementById("s");
 
-* {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-}
-
-body {
-background-color: #6ed3cf;
-}
-
-header {
-background: #f7a204;
-padding: 20px;
-}
-
-header > h1 {
-color: black;
-text-align: center;
-font-weight: bold;
-font-family: Asap , sans-serif;
+function computerChoice() {
+    const choices = ['r', 'p', 's'];
+    return choices[Math.floor(Math.random() * 3)];
 }
 
-.score-board {
-    margin: 20px auto;
-    border: 3px solid #e62739;
-    border-radius: 8px;
-    text-align: center;
-    width: 200px;
-    color: rgb(22, 6, 6);
-    font-size: 46px;
-    padding: 15px 20px;  
-    position: relative;
+function win(userInput, compChoice) {
+    userScore++;
+    userScore_span.innerHTML = userScore;
+    computerScore_span.innerHTML = computerScore;
+    if (userInput === 'r' && compChoice === 's') {
+        result_p.innerHTML = `Computer chosed Scissors. You Win ✅🎉`;
+    }
+    else if (userInput === 'p' && compChoice === 'r') {
+        result_p.innerHTML = `Computer chosed Rock. You Win ✅🎉`;
+    }
+    else if (userInput === 's' && compChoice === 'p') {
+        result_p.innerHTML = `Computer chosed Paper. You Win ✅🎉`;
+    }
+    document.getElementById(userInput).classList.add('win');
+    setTimeout(function () { document.getElementById(userInput).classList.remove('win'); }, 350);
 }
 
-.badge {
-    background: #dd3517;
-    color: rgb(12, 2, 2);
-    font-size: 14px;
-    padding: 2px 10px;
-    font-family: Asap, sans-serif;
+function Lose(userInput, compChoice) {
+    computerScore++;
+    userScore_span.innerHTML = userScore;
+    computerScore_span.innerHTML = computerScore;
+    if (userInput === 'r' && compChoice === 'p') {
+        result_p.innerHTML = "Computer chosed Paper 📜 . You Lost ❌☹";
+    }
+    else if (userInput === 'p' && compChoice === 's') {
+        result_p.innerHTML = "Computer chosed Scissors ✂ . You Lost ❌☹";
+    }
+    else if (userInput === 's' && compChoice === 'r') {
+        result_p.innerHTML = "Computer chosed Rock ⬛ . You Lost ❌☹";
+    }
+    document.getElementById(userInput).classList.add('lose');
+    setTimeout(function () { document.getElementById(userInput).classList.remove('lose'); }, 350);
+
 }
 
-#user-label {
-    position: absolute;
-    top: 30px;
-    left: -25px;
-    font-family: Asap;
+function Draw(userInput, compChoice) {
+    userScore_span.innerHTML = userScore;
+    computerScore_span.innerHTML = computerScore;
+    if (userInput === 'r' && compChoice === 'r') {
+        result_p.innerHTML = `Computer chosed Rock ⬛ . It's a Draw.`;
+    }
+    else if (userInput === 'p' && compChoice === 'p') {
+        result_p.innerHTML = `Computer chosed Paper 📜 . It's a Draw.`;
+    }
+    else if (userInput === 's' && compChoice === 's') {
+        result_p.innerHTML = `Computer chosed Scissors ✂ . It's a Draw.`;
+    }
+    document.getElementById(userInput).classList.add('draw');
+    setTimeout(function () { document.getElementById(userInput).classList.remove('draw'); }, 350);
 }
 
-#computer-label {
-    position: absolute;
-    top: 30px;
-    right: -30px;
-    font-family: Asap;
+function game(userInput) {
+    const compChoice = computerChoice();
+    const UserChoice = userInput + compChoice;
+    if (UserChoice === "rs" || UserChoice === "pr" || UserChoice === "sp") {
+        win(userInput, compChoice);
+        console.log("Win");
+    }
+    else if (UserChoice === "rp" || UserChoice === "ps" || UserChoice === "sr") {
+        Lose(userInput, compChoice);
+        console.log("Lose");
+    }
+    else if (UserChoice === "rr" || UserChoice === "pp" || UserChoice === "ss") {
+        Draw(userInput, compChoice);
+        console.log("Draw");
+    }
 }
 
-.result {
-    font-size: 40px; 
-    color: rgb(28, 7, 7);
+function main() {
+    rock_div.addEventListener('click', function () {
+        game('r');
+    })
+    paper_div.addEventListener('click', function () {
+        game('p');
+    })
+    scissors_div.addEventListener('click', function () {
+        game('s');
+    })
 }
-
-.result > p {
-    text-align: center;
-    font-weight: bold;
-    font-family: Asap;
-}
-
-.choices {
-    margin-top: 50px 0;
-    text-align: center;
-}
-.choice {
-    border: 4px solid rgb(26, 2, 2);
-    margin: 0px 20px;
-    padding: 10px;
-    display: inline-block;
-    transition: all 0.3s ease;
-}
-
-.choice:hover {
-    cursor: pointer;
-    background: rgba(36, 39, 46, 0.534);
-}
-
-#action-message {
-    text-align: center;
-    color: rgb(0, 0, 0);
-    font-family: Asap, sans-serif;
-    font-weight: bold;
-    font-size: 20px;
-    margin-top: 20px;
-}
-
-.scroll{
-    font-family: Asap,sans-serif;
-    text-align: center;
-    font-size: 50px;
-}
-
-.rules {
-    background:  #6f1a8b;
-    margin: 0 auto;
-    padding-top: 10px;
-    max-width: 1000px;
-    color: rgb(237, 241, 27);
-    font-family: Asap,sans-serif;
-    text-align: center;
-}
-.rules > h1 {
-    margin: 0px 10px;
-    font-size: 50px;
-}
-.rules > p {
-    margin: 10px;
-    font-size: 28px;
-}
-.rules > li {
-    margin: 5px;
-    text-align: center;
-    font-size: 20px;
-}
-
-.hint {
-        background: #6f1a8b;
-        margin: 0 auto;
-        padding-top: 10px;
-        max-width: 1000px;
-        color: rgb(237, 241, 27);
-        font-family: Asap,sans-serif;
-        text-align: center;
-}
-.hint > li {
-    margin: 10px;
-    text-align: center;
-    font-size: 20px;
-}
-.hint > p {
-    margin: 10px;
-    font-size: 20px;
-}
-
-
-.win:hover {
-    background: #4dcc4d;
-    border: 4px solid #31b43a;
-    box-shadow: 0 0 10px #4dcc4d;
-}
-
-.lose:hover {
-    background: #fc121b;
-    border: 4px solid #d01115;
-    box-shadow: 0 0 10px #fc121b;
-}
-
-
-.draw:hover {
-    background: #464647;
-    border: 4px solid #25292b;
-    box-shadow: 0 0 10px #25292b;
-}
+main();
