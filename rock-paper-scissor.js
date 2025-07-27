@@ -1,116 +1,161 @@
-let score=JSON.parse(localStorage.getItem('score'))||{
-    wins:0,
-    loses:0,
-    ties:0
-};
 
-let images=[{
-  id:"rock",
-  img:"/images/rock.jpeg"
-}, 
-{id:"paper",
-  img:"/images/paper.jpeg"
-},
-{id:"scissor",
-  img:"/images/scissor.jpeg"
-},
-]
-updatedScore();
-
-function takeComputerMove(){
-  const randomNumber=Math.random();
-  let computerMove='';
-  if(randomNumber>=0 && randomNumber<1/3){
-    computerMove ='rock';
-  }
-  else if(randomNumber>=1/3 && randomNumber<2/3){
-    computerMove ='paper';
-  }
-  else if(randomNumber>=2/3 && randomNumber<=1){
-    computerMove ='scissor';
-  }
-  return computerMove;
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
 }
 
-function playerChoice(playerMove){
-  let result='';
-  const computerMove=takeComputerMove();
-  if(playerMove==='rock'){
-    if (computerMove==='rock'){
-      result='Tie';
-    }
-    else if(computerMove==='paper'){
-      result='You lose';
-    }
-    else if(computerMove==='scissor'){
-      result='You win';
-    }
-  }
-  else if(playerMove==='paper'){
-    if (computerMove==='rock'){
-      result='You win';
-    }
-    else if(computerMove==='paper'){
-      result='Tie';
-    }
-    else if(computerMove==='scissor'){
-      result='You lose';
-    }
-  }
-  else if(playerMove==='scissor'){
-    if (computerMove==='rock'){
-      result='You lose';
-    }
-    else if(computerMove==='paper'){
-      result='You win';
-    }
-    else if(computerMove==='scissor'){
-      result='Tie';
-    }
-  }
-  if(result==='You win'){
-    score.wins+=1;
-  }
-  else if(result==='You lose'){
-    score.loses+=1;
-  }
-  else if(result==='Tie'){
-    score.ties+=1;
-  }
-  localStorage.setItem('score',JSON.stringify(score));
-  updatedScore();
-
-  document.querySelector('.js-result')
-    .innerHTML=result;
-    //for show player move image
-    let jsplayerMoveEle=document.getElementById("jsplayermove")
-    
-    const img1 = document.createElement('img');
-    let move1=`${playerMove}`;
-    
-    img1.src =  `/images/${move1}.jpeg`;
-    img1.classList="result-img";
-    img1.width = 150; // Optional size
-    
-    jsplayerMoveEle.innerHTML = "Your Move:";
-    jsplayerMoveEle.appendChild(img1);
-   //for show computer move image  
-    let jscomputerMoveEle=document.getElementById("jscomputermove")
-    
-    const img = document.createElement('img');
-    let move=`${computerMove}`;
-    
-    img.src =  `/images/${move}.jpeg`;
-    img.classList="result-img";
-    img.width = 150; // Optional size
-    
-    jscomputerMoveEle.innerHTML = "Computer Move:";
-    jscomputerMoveEle.appendChild(img);
-    
-  // document.querySelector('.js-moves').innerHTML=
-  //   `Your move: ${playerMove}    Computer move: ${computerMove}`
+body {
+background-color: #6ed3cf;
 }
-function updatedScore(){
-  document.querySelector('.js-score')
-    .innerHTML=`Wins:${score.wins},Loses:${score.loses},Ties:${score.ties}`;
+
+header {
+background: #f7a204;
+padding: 20px;
+}
+
+header > h1 {
+color: black;
+text-align: center;
+font-weight: bold;
+font-family: Asap , sans-serif;
+}
+
+.score-board {
+    margin: 20px auto;
+    border: 3px solid #e62739;
+    border-radius: 8px;
+    text-align: center;
+    width: 200px;
+    color: rgb(22, 6, 6);
+    font-size: 46px;
+    padding: 15px 20px;  
+    position: relative;
+}
+
+.badge {
+    background: #dd3517;
+    color: rgb(12, 2, 2);
+    font-size: 14px;
+    padding: 2px 10px;
+    font-family: Asap, sans-serif;
+}
+
+#user-label {
+    position: absolute;
+    top: 30px;
+    left: -25px;
+    font-family: Asap;
+}
+
+#computer-label {
+    position: absolute;
+    top: 30px;
+    right: -30px;
+    font-family: Asap;
+}
+
+.result {
+    font-size: 40px; 
+    color: rgb(28, 7, 7);
+}
+
+.result > p {
+    text-align: center;
+    font-weight: bold;
+    font-family: Asap;
+}
+
+.choices {
+    margin-top: 50px 0;
+    text-align: center;
+}
+.choice {
+    border: 4px solid rgb(26, 2, 2);
+    margin: 0px 20px;
+    padding: 10px;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.choice:hover {
+    cursor: pointer;
+    background: rgba(36, 39, 46, 0.534);
+}
+
+#action-message {
+    text-align: center;
+    color: rgb(0, 0, 0);
+    font-family: Asap, sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.scroll{
+    font-family: Asap,sans-serif;
+    text-align: center;
+    font-size: 50px;
+}
+
+.rules {
+    background:  #6f1a8b;
+    margin: 0 auto;
+    padding-top: 10px;
+    max-width: 1000px;
+    color: rgb(237, 241, 27);
+    font-family: Asap,sans-serif;
+    text-align: center;
+}
+.rules > h1 {
+    margin: 0px 10px;
+    font-size: 50px;
+}
+.rules > p {
+    margin: 10px;
+    font-size: 28px;
+}
+.rules > li {
+    margin: 5px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.hint {
+        background: #6f1a8b;
+        margin: 0 auto;
+        padding-top: 10px;
+        max-width: 1000px;
+        color: rgb(237, 241, 27);
+        font-family: Asap,sans-serif;
+        text-align: center;
+}
+.hint > li {
+    margin: 10px;
+    text-align: center;
+    font-size: 20px;
+}
+.hint > p {
+    margin: 10px;
+    font-size: 20px;
+}
+
+
+.win:hover {
+    background: #4dcc4d;
+    border: 4px solid #31b43a;
+    box-shadow: 0 0 10px #4dcc4d;
+}
+
+.lose:hover {
+    background: #fc121b;
+    border: 4px solid #d01115;
+    box-shadow: 0 0 10px #fc121b;
+}
+
+
+.draw:hover {
+    background: #464647;
+    border: 4px solid #25292b;
+    box-shadow: 0 0 10px #25292b;
 }
